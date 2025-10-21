@@ -4,35 +4,48 @@ document.addEventListener('DOMContentLoaded', function() {
     header: true,
     complete: function(results) {
       const gallery = document.getElementById('gallery');
-      results.data.forEach(row => {
-        if (!row.image || !row.Data_ || !row.Data_Label) return;
+    // Shuffle array helper (Fisher-Yates algorithm)
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
-        const card = document.createElement('div');
-        card.className = 'card';
+const gallery = document.getElementById('gallery');
 
-        const link = document.createElement('a');
-        link.href = row.Data_;
-        link.target = '_blank';
+// Shuffle before displaying
+const shuffled = shuffle(results.data);
 
-        const img = document.createElement('img');
-        // Fix Wikimedia Commons file path and enforce HTTPS
-        let filename = row.image.split('/Special:FilePath/')[1];
-        let fixedUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + filename + '?width=600';
-        img.src = fixedUrl;
+shuffled.forEach(row => {
+  if (!row.image || !row.Data_ || !row.Data_Label) return;
 
+  const card = document.createElement('div');
+  card.className = 'card';
 
-        img.alt = row.Data_Label;
-        img.loading = 'lazy';
+  const link = document.createElement('a');
+  link.href = row.Data_;
+  link.target = '_blank';
 
-        const caption = document.createElement('div');
-        caption.className = 'caption';
-        caption.textContent = row.Data_Label;
+  const img = document.createElement('img');
+  // Use the same secure redirect logic
+  let fixedUrl = row.image.trim()
+    .replace(/^http:\/\//, 'https://')
+    .replace('commons.wikimedia.org/wiki/Special:FilePath/', 'commons.wikimedia.org/wiki/Special:Redirect/file/');
+  img.src = fixedUrl;
+  img.alt = row.Data_Label;
+  img.loading = 'lazy';
 
-        link.appendChild(img);
-        card.appendChild(link);
-        card.appendChild(caption);
-        gallery.appendChild(card);
-      });
+  const caption = document.createElement('div');
+  caption.className = 'caption';
+  caption.textContent = row.Data_Label;
+
+  link.appendChild(img);
+  card.appendChild(link);
+  card.appendChild(caption);
+  gallery.appendChild(card);
+});  
     }
   });
 });
