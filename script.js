@@ -1,10 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-  Papa.parse('data.csv', {
-    download: true,
-    header: true,
-    complete: function(results) {
-      const gallery = document.getElementById('gallery');
-    // Shuffle array helper (Fisher-Yates algorithm)
+// Shuffle array helper (Fisher-Yates algorithm)
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -45,7 +39,4 @@ shuffled.forEach(row => {
   card.appendChild(link);
   card.appendChild(caption);
   gallery.appendChild(card);
-});  
-    }
-  });
 });
