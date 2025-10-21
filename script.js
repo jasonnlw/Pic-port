@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fixedUrl = `https://commons.wikimedia.org/wiki/Special:Redirect/file/${fileName}?width=600`;
         img.src = fixedUrl;
 
-          );
+      
         img.alt = row.Data_Label;
         img.loading = 'lazy';
 
