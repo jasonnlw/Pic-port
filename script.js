@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     download: true,
     header: true,
     skipEmptyLines: true,
+
     complete: function(results) {
       console.log("✅ CSV loaded. Rows:", results.data.length);
 
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return array;
       }
 
-      const galleryEl = document.getElementById('gallery'); // renamed variable
+      const galleryEl = document.getElementById('gallery');
       const shuffled = shuffle(results.data);
 
       shuffled.forEach(row => {
@@ -70,5 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
       console.log("🎨 Gallery rendered successfully.");
     },
+
     error: function(err) {
-      console.error("❌ PapaParse failed
+      console.error("❌ PapaParse failed:", err);
+    }
+  });
+
+});
