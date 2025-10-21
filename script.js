@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      // Shuffle array (Fisher-Yates)
+      // Helper: Shuffle array (Fisher-Yates)
       function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return array;
       }
 
-      const gallery = document.getElementById('gallery');
+      const galleryEl = document.getElementById('gallery'); // renamed variable
       const shuffled = shuffle(results.data);
 
       shuffled.forEach(row => {
@@ -33,11 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!imgURL || !snarcURL || !label) return;
 
-        // Create card
+        // Create card container
         const card = document.createElement('div');
         card.className = 'card';
 
-        // Link to SNARC entity
+        // Link wrapper
         const link = document.createElement('a');
         link.href = snarcURL;
         link.target = '_blank';
@@ -50,26 +50,25 @@ document.addEventListener('DOMContentLoaded', function() {
             'commons.wikimedia.org/wiki/Special:Redirect/file/'
           );
 
+        // Image element
         const img = document.createElement('img');
         img.src = fixedUrl;
         img.alt = label;
         img.loading = 'lazy';
 
+        // Caption
         const caption = document.createElement('div');
         caption.className = 'caption';
         caption.textContent = label;
 
-        // Assemble card
+        // Build structure
         link.appendChild(img);
         card.appendChild(link);
         card.appendChild(caption);
-        gallery.appendChild(card);
+        galleryEl.appendChild(card);
       });
 
       console.log("🎨 Gallery rendered successfully.");
     },
     error: function(err) {
-      console.error("❌ PapaParse failed:", err);
-    }
-  });
-});
+      console.error("❌ PapaParse failed
