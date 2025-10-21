@@ -30,11 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
         link.target = '_blank';
 
         const img = document.createElement('img');
-        img.src = row.image.trim()
+        // Convert to secure thumbnail (resized for faster loading)
+        const fileName = row.image.trim()
           .replace(/^http:\/\//, 'https://')
-          .replace(
-            'commons.wikimedia.org/wiki/Special:FilePath/',
-            'commons.wikimedia.org/wiki/Special:Redirect/file/'
+          .split('/Special:FilePath/')[1]; // extract filename only
+
+        const fixedUrl = `https://commons.wikimedia.org/wiki/Special:Redirect/file/${fileName}?width=600`;
+        img.src = fixedUrl;
+
           );
         img.alt = row.Data_Label;
         img.loading = 'lazy';
