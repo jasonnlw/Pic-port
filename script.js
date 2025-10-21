@@ -16,11 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const img = document.createElement('img');
         // Fix Wikimedia Commons file path and enforce HTTPS
-        let fixedUrl = row.image.trim()
-         .replace(/^http:\/\//, 'https://')
-         .replace('commons.wikimedia.org/wiki/Special:FilePath/', 'commons.wikimedia.org/wiki/Special:FilePath/')
-         + '?width=400';
+        let filename = row.image.split('/Special:FilePath/')[1];
+        let fixedUrl = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + filename + '?width=600';
         img.src = fixedUrl;
+
 
         img.alt = row.Data_Label;
         img.loading = 'lazy';
