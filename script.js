@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'card';
 
         const link = document.createElement('a');
-        link.href = row.Data_;
-        link.target = '_blank';
+        link.href = snarcURL;
+        // open in same window
+        // link.target = '_blank';
 
         const img = document.createElement('img');
         // Convert to secure thumbnail (resized for faster loading)
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .replace(/^http:\/\//, 'https://')
           .split('/Special:FilePath/')[1]; // extract filename only
 
-        const fixedUrl = `https://commons.wikimedia.org/wiki/Special:Redirect/file/${fileName}?width=600`;
+        const fixedUrl = `https://commons.wikimedia.org/wiki/Special:Redirect/file/${fileName}?width=500`;
         img.src = fixedUrl;
 
       
