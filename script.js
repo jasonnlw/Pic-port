@@ -15,7 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
         link.target = '_blank';
 
         const img = document.createElement('img');
-        img.src = row.image;
+        // Fix Wikimedia Commons file path and enforce HTTPS
+        let fixedUrl = row.image.trim()
+         .replace(/^http:\/\//, 'https://')
+         .replace('commons.wikimedia.org/wiki/Special:FilePath/', 'commons.wikimedia.org/wiki/Special:FilePath/')
+         + '?width=400';
+        img.src = fixedUrl;
+
         img.alt = row.Data_Label;
         img.loading = 'lazy';
 
