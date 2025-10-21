@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const link = document.createElement('a');
         link.href = snarcURL;
-        // open in same window
-        // link.target = '_blank';
+        link.rel = 'noopener';
+        
 
         const img = document.createElement('img');
         // Convert to secure thumbnail (resized for faster loading)
