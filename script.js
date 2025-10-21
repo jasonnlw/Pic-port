@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
 
   console.log("📦 Loading CSV...");
 
@@ -7,62 +7,42 @@ document.addEventListener('DOMContentLoaded', function() {
     header: true,
     skipEmptyLines: true,
 
-    complete: function(results) {
+    complete: results => {
       console.log("✅ CSV loaded. Rows:", results.data.length);
 
-      if (!results.data || results.data.length === 0) {
-        console.error("⚠️ No data found in CSV or failed to load.");
-        return;
-      }
-
-      // Helper: Shuffle array (Fisher-Yates)
-      function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
+      const shuffle = arr => {
+        for (let i = arr.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
+          [arr[i], arr[j]] = [arr[j], arr[i]];
         }
-        return array;
-      }
+        return arr;
+      };
 
       const galleryEl = document.getElementById('gallery');
-      const shuffled = shuffle(results.data);
+      shuffle(results.data).forEach(row => {
+        if (!row.image || !row.Data_ || !row.Data_Label) return;
 
-      shuffled.forEach(row => {
-        const imgURL = row.image;
-        const snarcURL = row.Data_;
-        const label = row.Data_Label;
-
-        if (!imgURL || !snarcURL || !label) return;
-
-        // Create card container
         const card = document.createElement('div');
         card.className = 'card';
 
-        // Link wrapper
         const link = document.createElement('a');
-        link.href = snarcURL;
+        link.href = row.Data_;
         link.target = '_blank';
 
-        // Fix Wikimedia Commons URLs (HTTPS + Redirect)
-        let fixedUrl = imgURL.trim()
+        const img = document.createElement('img');
+        img.src = row.image.trim()
           .replace(/^http:\/\//, 'https://')
           .replace(
             'commons.wikimedia.org/wiki/Special:FilePath/',
             'commons.wikimedia.org/wiki/Special:Redirect/file/'
           );
-
-        // Image element
-        const img = document.createElement('img');
-        img.src = fixedUrl;
-        img.alt = label;
+        img.alt = row.Data_Label;
         img.loading = 'lazy';
 
-        // Caption
         const caption = document.createElement('div');
         caption.className = 'caption';
-        caption.textContent = label;
+        caption.textContent = row.Data_Label;
 
-        // Build structure
         link.appendChild(img);
         card.appendChild(link);
         card.appendChild(caption);
@@ -72,9 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log("🎨 Gallery rendered successfully.");
     },
 
-    error: function(err) {
-      console.error("❌ PapaParse failed:", err);
-    }
+    error: err => console.error("❌ PapaParse failed:", err)
   });
 
 });
